@@ -1,28 +1,10 @@
 #!/bin/bash
-database="/root/usuarios.db"
-echo $$ > /tmp/kids
-while true
-do
-tput setaf 7 ; tput setab 1 ; tput bold ; printf '%28s%s%-18s\n' "SSH Monitor"
-tput setaf 7 ; tput setab 1 ; printf '  %-30s%s\n' "Usuario" "Conexion/Limite " ; echo "" ; tput sgr0
-	while read usline
-	do
-		user="$(echo $usline | cut -d' ' -f1)"
-		s2ssh="$(echo $usline | cut -d' ' -f2)"
-		if [ -z "$user" ] ; then
-			echo "" > /dev/null
-		else
-			ps x | grep [[:space:]]$user[[:space:]] | grep -v grep | grep -v pts > /tmp/tmp8
-			s1ssh="$(cat /tmp/tmp8 | wc -l)"
-			tput setaf 3 ; tput bold ; printf '  %-35s%s\n' $user $s1ssh/$s2ssh; tput sgr0
-		fi
-	done < "$database"
-	echo ""
-	exit 1
+online=$(netstat -nt | awk '$4 ~ /:(443)$/ && $6 ~ /ESTABLISHED/ {print $5}' | cut -d: -f3 | sort | uniq -c)
+echo -e "\E[44;1;37m              Conectados              \E[0m"; tput sgr0
+echo ""
+echo -e "\E[44;1;37mTotal:$online\E[0m"
+echo ""
+echo -e "\E[44;1;37m hora usuários \E[0m"
+ps -aux | grep sshd | grep -v root | awk -F ' ' '{print $9, $12}' | sort -n
+exit
 done
-
-    © 2018 GitHub, Inc.
-    Terms
-    Privacy
-    Security
-    Stat
