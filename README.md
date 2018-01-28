@@ -18,3 +18,7 @@ Este script monitorea los usuarios tanto Dropbear como OpenSSH en nuestro VPS.
 
 Android México Team
 =========
+
+Grupo de Telegram: http://t.me/pwrmx
+
+Blog: http://pwrmx.blogspot.com
